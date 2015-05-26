@@ -1,0 +1,117 @@
+!TomorrowNight
+!---------------------------------------------------------------------
+#define t_background        #1d1f21
+#define t_current_line      #282a2e
+#define t_selection         #373b41
+#define t_foreground        #c5c8c6
+#define t_comment           #969896
+#define t_red               #cc6666
+#define t_orange            #de935f
+#define t_yellow            #f0c674
+#define t_green             #b5bd68
+#define t_aqua              #8abeb7
+#define t_blue              #81a2be
+#define t_purple            #b294bb
+
+
+*.foreground:   t_foreground
+*.background:   t_background
+*.cursorColor:  #aeafad
+
+! Black / Grey
+!*.color0:       #000000
+*.color0:       #444444
+*.color8:       #666666
+
+! Red / Bright Red
+*.color1:       t_red
+*.color9:       #FF3334
+
+! Green + Bright Green
+*.color2:       t_green
+*.color10:      #9ec400
+
+! Yellow (Orange) + Bright Yellow (Yellow)
+*.color3:       t_orange
+*.color11:      t_yellow
+
+! Blue + Bright Blue
+*.color4:       t_blue
+*.color12:      t_blue
+
+! Magenta (Purple) + Bright Magenta
+*.color5:       t_purple
+*.color13:      #b777e0
+
+! Cyan (Aqua) + Bright Cyan
+*.color6:       t_aqua
+*.color14:      #54ced6
+
+! Light Grey (Selection) + White (Current Line)
+*.color7:       t_selection
+*.color15:      t_current_line
+!---------------------------------------------------------------------
+
+
+!Fonts
+!---------------------------------------------------------------------
+Xft.autohint:              0
+Xft.antialias:             true
+Xft.lcdfilter:             lcddefault
+Xft.hintstyle:             hintfull
+Xft.hinting:               1
+Xft.dpi:                   96
+Xft.rgba:                  rgb
+!---------------------------------------------------------------------
+
+
+Xcursor.size:              12
+
+
+!Weechat
+!---------------------------------------------------------------------
+weechat*urgentOnBell:      true
+!---------------------------------------------------------------------
+
+
+!RXVT Unicode
+!---------------------------------------------------------------------
+URxvt*font:                xft:Terminus:antialias=true:pixelsize=8
+URxvt*imFont:              xft:Terminus:antialias=true:pixelsize=8
+URxvt*boldFont:            xft:Terminus:bold:antialias=true:pixelsize=8
+URxvt*italicFont:          xft:Terminus:italic:antialias=true:pixelsize=8
+URxvt*boldItalicFont:      xft:Terminus:bold:italic:antialias=true:pixelsize=8
+URxvt*transparent:         true
+URxvt*buffered:            true
+URxvt*cursorBlink:         true
+URxvt*fading:              40
+URxvt*shading:             50
+URxvt*depth:               32
+URxvt*borderless:          true
+URxvt*scrollBar:           false
+URxvt*jumpScroll:          true
+URxvt*skipScroll:          false
+URxvt*loginShell:          true
+URxvt.print-pipe:          "cat > /dev/null"
+URxvt*secondaryScroll:     true
+URxvt*saveLines:           5000
+URxvt.perl-ext:
+URxvt.perl-ext-common:     default
+URxvt.underlineColor:      #484845
+URxvt*visualBell:          false
+URxvt.clipboard.autocopy:  true
+URxvt*cutchars:            `()'*<>[]{|}"'‘’:│
+URxvt.selection.pattern-0: ([[:word:]]+)
+
+URxvt.url-launcher:        /usr/sbin/firefox
+URxvt.matcher.button:      1
+
+URxvt*scrollTtyOutput:     False
+URxvt*scrollTtyKeypress:   True
+URxvt*scrollWithBuffer:    True
+
+! Disable all the urxvt functionalities (input of ☺ unicodes etc..) associated with the ctrl+shift keys.
+! https://github.com/ivoarch/.dot-org-files/blob/master/Xresources.org
+URxvt.iso14755: false
+URxvt.iso14755_52: false
+!---------------------------------------------------------------------
