@@ -1,0 +1,23 @@
+[user]
+    email = mina.nsami@gmail.com
+    name = Mina Nabil Sami
+[alias]
+    lg = log --graph --pretty=format:'%C(yellow)%h %C(red)%ci%C(reset) %s %C(red)by %an%C(reset)% C(green)%d%C(reset)' --date-order --color --all
+    st = status
+[color]
+    branch = auto
+    diff = auto
+    status = auto
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
