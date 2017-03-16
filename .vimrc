@@ -1,5 +1,5 @@
 set nocompatible " be iMproved
-filetype off 
+filetype off
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -7,14 +7,24 @@ call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 
-Plugin 'gmarik/Vundle.vim'
-Plugin 'git@github.com:bling/vim-airline.git'
-Plugin 'kien/ctrlp.vim'
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'elzr/vim-json'
 Bundle 'git://fedorapeople.org/home/fedora/wwoods/public_git/vim-scripts.git'
 Plugin 'nrocco/vim-phpunit'
 Plugin 'evidens/vim-twig'
+" for GO
+Plugin 'fatih/vim-go'
+
+" for python
+Plugin 'davidhalter/jedi-vim'
+
+" for git
+Plugin 'tpope/vim-fugitive'
 
 syntax enable                                   " Enable syntaxt highlighting/coloring
 set t_Co=16                                     " Use 16 ansi color terminal by default
@@ -23,6 +33,8 @@ set number                                      " Show line numbers
 set showmode                                    " Show in what mode we are in (paste/nopaste)
 set nopaste
 set numberwidth=6                               " Make space to show line numbers up to 99999
+set backspace=indent,eol,start                  " Make backspace works like any other application
+
 
 " ------------------------------------------------------------------------------------------------------------------------------
 "set nowrap                                      " Disable wrapping of lines
@@ -82,6 +94,31 @@ set wildignore+=*.pyc,*/cache/*,*/log/*,*/logs/*,*.so,*.swp
 let g:netrw_list_hide = '.*\.pyc'
 
 " ---------------------------------------------------------------
+" PLUGIN: vim-go
+" ---------------------------------------------------------------
+let g:go_fmt_command = "goimports"
+
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+
+let g:syntastic_go_checkers = ['go', 'golint', 'errcheck']
+
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+
+au FileType go nmap <Leader>ds <Plug>(go-def-split)
+au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+
+au FileType go nmap <Leader>s <Plug>(go-implements)
+
+" ---------------------------------------------------------------
 " PLUGIN: Clean Trailing Whitespaces from file
 " ---------------------------------------------------------------
 nnoremap        <leader>c              :call <SID>CleanTrailingWhiteSpaces()<CR>
@@ -121,6 +158,7 @@ let g:ctrlp_buftag_types = {
 let g:airline_theme = 'bubblegum'
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
+let g:airline#extensions#tabline#enabled = 1
 " ---------------------------------------------------------------
 
 " Fix indentiation in whole file
@@ -128,6 +166,9 @@ nnoremap      <leader>i       mzgg=G`z<CR>
 
 " phplint
 noremap <C-l> :Phplint<CR>
+
+" do spell check
+nmap <Leader>s :setlocal spell! spelllang=en_us<CR>
 
 " vim-json: disable concealing of double quotes
 let g:vim_json_syntax_conceal = 0
