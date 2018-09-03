@@ -83,7 +83,9 @@ fi
 
 # if your keys are not stored in ~/.ssh/id_rsa.pub or ~/.ssh/id_dsa.pub, you'll need
 # to paste the proper path after ssh-add
-if ! agent_is_running; then
+AGENT_IS_RUNNING=agent_is_running
+if [[ $AGENT_IS_RUNNING -eq 0 || $AGENT_IS_RUNNING -eq false ]]
+then
   agent_start
   add_all_keys
 elif ! agent_has_keys; then
