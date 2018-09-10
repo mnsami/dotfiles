@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# colors
+export CLICOLOR=1
+
 # Make vim the default editor.
 export EDITOR='vim';
 
