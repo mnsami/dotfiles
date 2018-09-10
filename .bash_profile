@@ -9,8 +9,8 @@ for file in ~/.{path,bash_prompt,exports,ssh,aliases}; do
 done;
 unset file;
 
-ln -sfv "$DOTFILES_DIR/git/.gitconfig" ~
-ln -sfv "$DOTFILES_DIR/git/.gitignore_global" ~
+ln -sfv "$HOME/git/.gitconfig" ~
+ln -sfv "$HOME/git/.gitignore_global" ~
 
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob;
