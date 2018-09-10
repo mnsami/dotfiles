@@ -25,7 +25,7 @@ brew install htop
 
 # install dev
 brew install node
-brew install create-react-app
+npm install -g create-react-app
 
 # Remove outdated versions from the cellar.
 brew cleanup
