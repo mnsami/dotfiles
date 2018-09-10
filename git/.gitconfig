@@ -2,8 +2,11 @@
     email = mina.nsami@gmail.com
     name = Mina Nabil Sami
 [alias]
-    lg = log --graph --pretty=format:'%C(yellow)%h %C(red)%ci%C(reset) %s %C(red)by %an%C(reset)% C(green)%d%C(reset)' --date-order --color --all
+    lg = log --graph --pretty=format:'%C(yellow)%h %C(blue)%ci%C(reset) %s %C(red)by %an%C(reset)% C(green)%d%C(reset)' --date-order --color --all
     st = status
+    cob = checkout -b
+    co = checkout
+    all = fetch --all
 [color]
     branch = auto
     diff = auto
