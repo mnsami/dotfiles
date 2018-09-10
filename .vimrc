@@ -1,127 +1,139 @@
-set nocompatible " be iMproved
+" ------------------------------------------------------------------------------------------------------------------------------
+set nocompatible
 filetype off
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+call plug#begin('~/.vim/plugged')
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    Plug 'arcticicestudio/nord-vim'
+    Plug 'joshdick/onedark.vim'
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'jelera/vim-javascript-syntax'
-Plugin 'elzr/vim-json'
-Bundle 'git://fedorapeople.org/home/fedora/wwoods/public_git/vim-scripts.git'
-Plugin 'nrocco/vim-phpunit'
-Plugin 'evidens/vim-twig'
-" for GO
-Plugin 'fatih/vim-go'
+    Plug 'SirVer/ultisnips'
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    Plug 'junegunn/fzf.vim'
 
-" for python
-Plugin 'davidhalter/jedi-vim'
+    Plug 'tpope/vim-commentary'
+    Plug 'tpope/vim-fugitive'
+    Plug 'tpope/vim-ragtag'
+    Plug 'tpope/vim-surround'
+    Plug 'tpope/vim-unimpaired'
 
-" for git
-Plugin 'tpope/vim-fugitive'
+    Plug 'janko-m/vim-test'
+    Plug 'majutsushi/tagbar'
+    Plug 'tpope/vim-sensible'
+    Plug 'chrisbra/csv.vim'
 
-syntax enable                                   " Enable syntaxt highlighting/coloring
-set t_Co=16                                     " Use 16 ansi color terminal by default
-colorscheme Tomorrow-Night
-set number                                      " Show line numbers
-set showmode                                    " Show in what mode we are in (paste/nopaste)
-set nopaste
-set numberwidth=6                               " Make space to show line numbers up to 99999
-set backspace=indent,eol,start                  " Make backspace works like any other application
+    " Syntax bundle
+    Plug 'sheerun/vim-polyglot'
+
+    " go stuff
+    Plug 'fatih/vim-go', { 'for': 'go' }
+
+    " php stuff
+    Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php' }
+    Plug 'sumpygump/php-documentor-vim', { 'for': 'php' }
+
+    " chef stuff
+    " Plug 'gregf/ultisnips-chef'
+    Plug 'ngmy/vim-rubocop'
+    Plug 'dougireton/vim-chef'
+
+    " python stuff
+    Plug 'vim-scripts/indentpython.vim'
+    Plug 'davidhalter/jedi-vim'
+call plug#end()
+" ------------------------------------------------------------------------------------------------------------------------------
 
 
 " ------------------------------------------------------------------------------------------------------------------------------
-"set nowrap                                      " Disable wrapping of lines
+set hidden
+set nomodeline                                  " Disable modeline for security reasons (FreeBSD tip)
+" ------------------------------------------------------------------------------------------------------------------------------
+syntax on                                   " Enable syntaxt highlighting/coloring
+set termguicolors
+set number                                      " Show line numbers
+set showmode                                    " Show in what mode we are in (paste/nopaste)
+set nopaste
+set background=dark
+set numberwidth=4                               " Make space to show line numbers up to 999
+colorscheme onedark 
+" ------------------------------------------------------------------------------------------------------------------------------
+set nowrap                                      " Disable wrapping of lines
 set linebreak                                   " If we enable wrapping. Make it at least sensible
 set nolist                                      " List disables linebreak
 set textwidth=0                                 " Prevent Vim from automatically inserting line breaks
 set wrapmargin=0                                " Prevent Vim from automatically inserting line breaks
-
 " ------------------------------------------------------------------------------------------------------------------------------
-set scrolloff=4                                 " Always have at least 3 lines before the window's bottom
+set scrolloff=1                                 " Always have at least 3 lines before the window's bottom
 set lazyredraw                                  " Don't update while in macro
 set ttyfast                                     " Improves redrawing
 set ttyscroll=3
 set nofoldenable                                " Disable Folding
+set foldcolumn=1                                " Add a bit extra margin to the left
 " ------------------------------------------------------------------------------------------------------------------------------
-
+set backspace=eol,start,indent                  " Configure backspace so it acts as it should act
+set whichwrap+=<,>,h,l                          " Configure backspace so it acts as it should act
+" ------------------------------------------------------------------------------------------------------------------------------
 set incsearch                                   " Searching starts after you enter the string
 set ignorecase                                  " Searching is not case sensitive
 set smartcase                                   " If a pattern contains an uppercase letter, it is case sensitive, otherwise not
 set hlsearch                                    " Highlight searches
 set gdefault                                    " Assume the /g flag on :s substitutions to replace all matches in a line:
 set wrapscan                                    " Set the search scan to wrap around the file
-set enc=utf-8                                   " UTF-8 Default encoding
+set encoding=utf8                               " UTF-8 Default encoding
 " ------------------------------------------------------------------------------------------------------------------------------
-
+filetype plugin indent on                       " Enable plugins on a file type basis
+" ------------------------------------------------------------------------------------------------------------------------------
 set noerrorbells                                " No audio bell
 set novisualbell                                " No visual bell
+set t_vb=
+set tm=500
 " ------------------------------------------------------------------------------------------------------------------------------
-
 set autoread                                    " Set to auto read when a file is changed from the outside
 set wildmenu                                    " Enables a menu at the bottom of the vim/gvim window.
 set wildmode=list:longest,full                  " Completion on the command line
-set completeopt=longest,menuone                 " Completion popup doesn’t select first item and typing new letters updates the completion list
+"  set completeopt=menuone,longest,preview         " Completion popup doesn’t select first item and typing new letters updates the completion list
 set showmatch                                   " Show/highlight matching braches
+set mat=2                                       " How many tenths of a second to blink when matching brackets
 set nosmartindent                               " Automatically indent braces (overrides autoindent)
 set report=0                                    " Tell us when anything is changed via :...
 " ------------------------------------------------------------------------------------------------------------------------------
-
-set directory=/var/tmp                          " directory to place swap files in
-
-
+set directory=~/.cache/vim                      " Directory to place swap files in
+set nobackup                                    " Turn backup off since most stuff is in git anyway
+set nowb                                        " Turn backup off since most stuff is in git anyway
+set noswapfile                                  " Turn backup off since most stuff is in git anyway
+" ------------------------------------------------------------------------------------------------------------------------------
 set expandtab                                   " Tab will be translated to spaces
 set softtabstop=4                               " Use these amount of spaces when inserting a tab
 set tabstop=4                                   " Use these amount of spaces when inserting a tab
 set shiftwidth=4                                " Control how many columns text is indented with the reindent operations
-
-
+" ------------------------------------------------------------------------------------------------------------------------------
 set ruler                                       " Show line number and cursor position
-if has('statusline')
-    set laststatus=2                              " Always show the status line
-endif
+" if has('statusline')
+"   set laststatus=2                              " Always show the status line
+" endif
+"set cmdheight=2                                 " Height of the command bar
+" ------------------------------------------------------------------------------------------------------------------------------
+set clipboard-=autoselect                       " Disable the automatic selection and copying of text in terminal Vim
+" ------------------------------------------------------------------------------------------------------------------------------
+let g:elite_mode=1                              " Enable Elite mode, No ARRRROWWS
+" ------------------------------------------------------------------------------------------------------------------------------
 
+" Disable vim netrw plugin
+let g:loaded_netrw       = 1
+let g:loaded_netrwPlugin = 1
 
 let mapleader = ","                             " Set mapleader key to ,
+let g:mapleader = ","
 
 set wildignore+=*.pyc,*/cache/*,*/log/*,*/logs/*,*.so,*.swp
-let g:netrw_list_hide = '.*\.pyc'
+set wildignorecase
 
-" ---------------------------------------------------------------
-" PLUGIN: vim-go
-" ---------------------------------------------------------------
-let g:go_fmt_command = "goimports"
-
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_types = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-
-let g:syntastic_go_checkers = ['go', 'golint', 'errcheck']
-
-au FileType go nmap <leader>r <Plug>(go-run)
-au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>c <Plug>(go-coverage)
-
-au FileType go nmap <Leader>ds <Plug>(go-def-split)
-au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <Leader>dt <Plug>(go-def-tab)
-
-au FileType go nmap <Leader>s <Plug>(go-implements)
 
 " ---------------------------------------------------------------
 " PLUGIN: Clean Trailing Whitespaces from file
 " ---------------------------------------------------------------
-nnoremap        <leader>c              :call <SID>CleanTrailingWhiteSpaces()<CR>
+nnoremap <leader>c :call <SID>CleanTrailingWhiteSpaces()<CR>
 function! <SID>CleanTrailingWhiteSpaces()
     let _s=@/
     let l = line(".")
@@ -132,50 +144,163 @@ function! <SID>CleanTrailingWhiteSpaces()
 endfunction
 " ---------------------------------------------------------------
 
-" ---------------------------------------------------------------
-" PLUGIN: ctrlp.vim
-" ---------------------------------------------------------------
-let g:ctrlp_map = '<leader>a'
-let g:ctrlp_lazy_update = 50
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_show_hidden = 0
-let g:ctrlp_follow_symlinks = 1
-let g:ctrlp_open_new_file = 't'
-let g:ctrlp_extensions = ['tag']
-let g:ctrlp_prompt_mappings = {
-            \ 'AcceptSelection("e")': ['<c-t>'],
-            \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
-            \ }
-let g:ctrlp_buftag_types = {
-            \ 'yaml': '--languages=ansible --ansible-types=k',
-            \ }
-" ---------------------------------------------------------------
-
 
 " ---------------------------------------------------------------
 " PLUGIN: vim-airline
 " ---------------------------------------------------------------
-let g:airline_theme = 'bubblegum'
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
-let g:airline#extensions#tabline#enabled = 1
+  let g:airline_theme = 'onedark'
+  let g:hybrid_custom_term_colors = 1
+  let g:hybrid_reduced_contrast = 1
+  let g:airline_powerline_fonts = 1
+  " Enable the list of buffers
+  let g:airline#extensions#tabline#enabled = 1
+  let g:airline#extensions#tabline#show_tabs = 1
+  " Show just the filename
+  let g:airline#extensions#tabline#fnamemod = ':t'
 " ---------------------------------------------------------------
 
+
+" ---------------------------------------------------------------
+" PLUGIN: fzf - A command-line fuzzy finder written in Go
+" ---------------------------------------------------------------
+nnoremap <leader>f :call fzf#run({'source': 'fd --type f --no-ignore --follow --color never', 'sink': 'e', 'down': '40%'})<CR>
+autocmd! FileType fzf
+autocmd  FileType fzf set laststatus=0 noshowmode noruler
+    \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+" ---------------------------------------------------------------
+
+" ---------------------------------------------------------------
+" PLUGIN: commentary.vim
+" Set default comment prefixes for different file types.
+" ---------------------------------------------------------------
+autocmd FileType apache   set commentstring=#\ %s
+autocmd FileType nginx    set commentstring=#\ %s
+autocmd FileType php      set commentstring=//\ %s
+autocmd FileType markdown set commentstring=>\ %s
+autocmd FileType yaml     set commentstring=#\ %s
+
+nmap \\\ gcc
+vmap \\ gc
+" ---------------------------------------------------------------
+
+" ---------------------------------------------------------------
+" PLUGIN: tagbar
+" ---------------------------------------------------------------
+nmap <F8> :TagbarToggle<CR>
+" ---------------------------------------------------------------
+
+
+" ---------------------------------------------------------------
+" Keyboard shortcuts
+" vim: set foldmarker={,} foldlevel=0 foldmethod=marker spell:
+" ---------------------------------------------------------------
+
+" Shortcut to start command mode with the spacebar
+nmap <space> :
+
+" Keep selection in visual mode after indenting lines
+vnoremap < <gv
+vnoremap > >gv
+
+" Wrapped lines goes down/up to next row, rather than next line in file.
+nnoremap j gj
+nnoremap k gk
+
 " Fix indentiation in whole file
-nnoremap      <leader>i       mzgg=G`z<CR>
+nnoremap <leader>i mzgg=G`z<CR>
 
-" phplint
-noremap <C-l> :Phplint<CR>
+" Keyboard shortcut for find-and-replace
+nnoremap <leader>s :%s/
+vmap <leader>s :s/
 
-" do spell check
-nmap <Leader>s :setlocal spell! spelllang=en_us<CR>
+" ---------------------------------------------------------------
+" Buffer navigation
+map  <C-h>  <ESC>:bprevious<CR>
+nmap <C-h>  <ESC>:bprevious<CR>
+map  <C-l>  <ESC>:bnext<CR>
+nmap <C-l>  <ESC>:bnext<CR>
 
-" vim-json: disable concealing of double quotes
-let g:vim_json_syntax_conceal = 0
+nmap <leader>q :bprevious <BAR> bdelete #<CR>
+nmap <leader>n :enew<CR>
 
-" " Remove the current buffer file from disk
+" Remove the current buffer file from disk
 command Rm call delete(expand('%')) | bdelete!
+" ---------------------------------------------------------------
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+
+" ---------------------------------------------------------------
+" Fix Home/End keys in vim
+:map  <ESC>[H <Home>
+:map  <ESC>[F <End>
+:imap <ESC>[H <C-O><Home>
+:imap <ESC>[F <C-O><End>
+:cmap <ESC>[H <Home>
+:cmap <ESC>[F <End>
+" ---------------------------------------------------------------
+
+" Automatically save non-existent directories on save
+autocmd BufWritePre * :silent !mkdir -p %:p:h
+
+" Use q to close vim help
+autocmd FileType help noremap <buffer> q :helpclose<CR>
+
+" ---------------------------------------------------------------
+" Map :q to close the buffer, and if it is the last buffer, close vim
+fun! s:quitiflast()
+    let bufcnt = len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
+    bdelete
+    if bufcnt < 2
+        quit
+    endif
+endfun
+
+command! Bd :call s:quitiflast()
+
+" cnoreabbrev <expr> q getcmdtype() == ":" && getcmdline() == 'q' ? 'Bd' : 'q'
+" ---------------------------------------------------------------
+
+
+" ---------------------------------------------------------------
+" Restore cursor position when switching buffers and back
+" ---------------------------------------------------------------
+" Save current view settings on a per-window, per-buffer basis.
+function! AutoSaveWinView()
+    if !exists("w:SavedBufView")
+        let w:SavedBufView = {}
+    endif
+    let w:SavedBufView[bufnr("%")] = winsaveview()
+endfunction
+
+" Restore current view settings.
+function! AutoRestoreWinView()
+    let buf = bufnr("%")
+    if exists("w:SavedBufView") && has_key(w:SavedBufView, buf)
+        let v = winsaveview()
+        let atStartOfFile = v.lnum == 1 && v.col == 0
+        if atStartOfFile && !&diff
+            call winrestview(w:SavedBufView[buf])
+        endif
+        unlet w:SavedBufView[buf]
+    endif
+endfunction
+
+" When switching buffers, preserve window view.
+if v:version >= 700
+    autocmd BufLeave * call AutoSaveWinView()
+    autocmd BufEnter * call AutoRestoreWinView()
+endif
+" ---------------------------------------------------------------
+
+" ---------------------------------------------------------------
+" Jedi-Vim for Python
+" --------------------------------------------------------------
+let g:jedi#auto_initialization = 1
+let g:jedi#auto_vim_configuration = 1
+let g:jedi#popup_on_dot = 0
+call jedi#configure_call_signatures()
+let g:jedi#show_call_signatures = 1
+
+" Read settings from a system local vimrc
+" if filereadable($HOME . '/.vimrclocal')
+"   source $HOME/.vimrclocal
+" endif
