@@ -9,7 +9,6 @@ function doIt() {
 		--exclude ".DS_Store" \
 		--exclude "bootstrap.sh" \
 		--exclude "README.md" \
-		--exclude ".ssh_agent" \
 		-avh --no-perms . ~;
 	source ~/.bash_profile;
 }
