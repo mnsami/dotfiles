@@ -9,6 +9,9 @@ brew update
 # Upgrade any already-installed formulae.
 brew upgrade
 
+# coreutils
+brew install coreutils
+
 # Install `wget`
 brew install wget
 
