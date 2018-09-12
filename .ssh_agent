@@ -1,60 +1,22 @@
 #!/usr/bin/env bash
 
-# Note: ~/.ssh/environment should not be used, as it
-#       already has a different purpose in SSH.
-
-env=~/.ssh/agent.env
-
-# Note: Don't bother checking SSH_AGENT_PID. It's not used
-#       by SSH itself, and it might even be incorrect
-#       (for example, when using agent-forwarding over SSH).
-
-agent_is_running() {
-    if [ "$SSH_AUTH_SOCK" ]; then
-        # ssh-add returns:
-        #   0 = agent running, has keys
-        #   1 = agent running, no keys
-        #   2 = agent not running
-        # if your keys are not stored in ~/.ssh/id_rsa.pub or ~/.ssh/id_dsa.pub, you'll need
-        # to paste the proper path after ssh-add
-        ssh-add -l >/dev/null 2>&1 || [ $? -eq 1 ]
-    else
-        false
-    fi
-}
 
 add_all_keys() {
   ls ~/.ssh | grep .*_rsa$ --color=never | sed "s:^:`echo ~`/.ssh/:" | xargs -n 1 ssh-add
 }
 
-agent_has_keys() {
-    # if your keys are not stored in ~/.ssh/id_rsa.pub or ~/.ssh/id_dsa.pub, you'll need
-    # to paste the proper path after ssh-add
-    ssh-add -l >/dev/null 2>&1
-}
+SSH_KEYS=$(ls ~/.ssh | grep .*_rsa$ --color=never | sed "s:^:`echo ~`/.ssh/:" | wc -l)
+LOADED_SSH_KEYS=$(ssh-add -l | wc -l)
 
-agent_load_env() {
-    . "$env" >/dev/null
-}
+SSH_SOCK_ENV=$HOME/.ssh/agent_sock
 
-agent_start() {
-    (umask 077; ssh-agent >"$env")
-    . "$env" >/dev/null
-}
-
-if ! agent_is_running; then
-    agent_load_env
+if [ -S "$SSH_AUTH_SOCK" -a "$SSH_AUTH_SOCK" != "$SSH_SOCK_ENV" ]
+then
+    unlink "$SSH_SOCK_ENV" 2>/dev/null
+    ln -sf "$SSH_AUTH_SOCK" "$SSH_SOCK_ENV"
+    export SSH_AUTH_SOCK="$SSH_SOCK_ENV"
+    if [ $SSH_KEYS -ne $LOADED_SSH_KEYS ]; then
+        add_all_keys
+    fi
+    echo `ssh-add -l | wc -l` SSH keys registered.
 fi
-
-# if your keys are not stored in ~/.ssh/id_rsa.pub or ~/.ssh/id_dsa.pub, you'll need
-# to paste the proper path after ssh-add
-if ! agent_is_running; then
-    agent_start
-    add_all_keys
-else # instead of adding all keys blindly, we should check if all keys are loaded in first place
-    add_all_keys
-fi
-
-echo `ssh-add -l | wc -l` SSH keys registered.
-
-unset env
