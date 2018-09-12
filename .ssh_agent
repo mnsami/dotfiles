@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 
 # Note: ~/.ssh/environment should not be used, as it
 #       already has a different purpose in SSH.
@@ -50,7 +51,7 @@ fi
 if ! agent_is_running; then
     agent_start
     add_all_keys
-elif ! agent_has_keys; then
+else # instead of adding all keys blindly, we should check if all keys are loaded in first place
     add_all_keys
 fi
 
