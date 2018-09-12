@@ -1,6 +1,7 @@
-[user]
-    email = mina.nsami@gmail.com
-    name = Mina Nabil Sami
+[core]
+
+	# Use custom `.gitignore` and `.gitattributes`
+	excludesfile = ~/.gitignore_global
 
 [alias]
     lg = log --graph --pretty=format:'%C(yellow)%h %C(blue)%ci%C(reset) %s %C(red)by %an%C(reset)% C(green)%d%C(reset)' --date-order --color --all
