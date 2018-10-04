@@ -11,6 +11,15 @@ I created this mainly for using on macOS, and I didn't test it on any *nix syste
 * [Mathias Bynens](https://mathiasbynens.be/) and his [dotfiles Repo](https://github.com/mathiasbynens/dotfiles)
 * Lars Kappert and his awesome blog about [dotfiles](https://medium.com/@webprolific/getting-started-with-dotfiles-43c3602fd789)
 
+## Colors
+
+My color theme is drived from [One Dark for iterm](https://github.com/anunez/one-dark-iterm), and I added more customizations to my liking. You can find it [here](https://github.com/mnsami/dotfiles/blob/master/iterm/One%20Dark.itermcolors).
+
+To use the same color theme as mine, go to:
+
+1. iTerm2 -> Preferences -> Profiles -> Colors
+2. From the Color Presets, import the `.itermcolors` file and select it.
+
 
 ## Installation
 
