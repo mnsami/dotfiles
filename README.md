@@ -76,6 +76,10 @@ This will do the following:
 
 Some of the functionality of these dotfiles depends on formulae installed by `brew.sh`. If you don’t plan to run `brew.sh`, you should look carefully through the script and manually install any particularly important ones.
 
+## Feedback
+
+If you have questions, suggestions or improvements you are welcome to tell me about it [here](https://github.com/mnsami/dotfiles/issues)
+
 ## Author
 
 | [![twitter/MinaNabilSami](https://secure.gravatar.com/avatar/d990e5db49fc11a49e3a4a1e19c2607d)](http://twitter.com/MinaNabilSami "Follow @MinaNabilSami on Twitter") |
