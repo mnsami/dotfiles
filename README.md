@@ -33,7 +33,7 @@ You can clone it anywhere on your machine, the `bootstrap.sh` script will pull i
 
 ##### To install in one line, run:
 
-    git clone https://github.com/mathiasbynens/dotfiles.git && cd dotfiles && source bootstrap.sh
+    git clone https://github.com/mnsami/dotfiles.git && cd dotfiles && source bootstrap.sh
 
 ##### Update:
 
