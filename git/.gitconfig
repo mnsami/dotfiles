@@ -9,7 +9,7 @@
     cob = checkout -b
     co = checkout
     all = fetch --all
-    clean = git branch --merged master | grep -v '^\*\|  master' | xargs -n 1 git branch -d # will not delete master if master is not checked out
+    clean = branch --merged master | grep -v '^\*\|  master' | xargs -n 1 git branch -d # will not delete master if master is not checked out
 
 [color]
     branch = auto
