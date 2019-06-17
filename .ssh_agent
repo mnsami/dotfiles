@@ -15,7 +15,7 @@ then
     unlink "$SSH_SOCK_ENV" 2>/dev/null
     ln -sf "$SSH_AUTH_SOCK" "$SSH_SOCK_ENV"
     export SSH_AUTH_SOCK="$SSH_SOCK_ENV"
-    if [ $SSH_KEYS -ne $LOADED_SSH_KEYS ]; then
+    if [[ $SSH_KEYS -ne $LOADED_SSH_KEYS  || $LOADED_SSH_KEYS -eq 1 ]] ; then
         add_all_keys
     fi
     echo `ssh-add -l | wc -l` SSH keys registered.
