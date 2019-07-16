@@ -16,7 +16,7 @@ brew install coreutils
 brew install wget
 
 # Install more recent versions of some macOS tools.
-brew install vim --with-override-system-vi
+brew install vim
 brew install grep
 
 # install  useful libraries
@@ -25,6 +25,7 @@ brew install bash-completion
 brew install httpie
 brew install tree
 brew install htop
+brew install python
 
 # install dev
 brew install node
