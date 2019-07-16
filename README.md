@@ -1,12 +1,11 @@
-.dotfiles
-=========
+# .dotfiles
 
-![Screenshot of my shell prompt](https://cloud.minasami.com/apps/files_sharing/publicpreview/JArNKMeNkgM9XoY?x=1920&y=714&a=true&file=mnsami_shell_look.png&scalingup=0)
+![Screenshot of my shell prompt](https://cloud.minasami.com/index.php/s/JArNKMeNkgM9XoY/preview)
 
 These are my dotfiles. Take anything you want, but at your own risk.
 I created this mainly for using on macOS, and I didn't test it on any *nix system.
 
-## Thanks to...
+## Thanks to
 
 * [Mathias Bynens](https://mathiasbynens.be/) and his [dotfiles Repo](https://github.com/mathiasbynens/dotfiles)
 * Lars Kappert and his awesome blog about [dotfiles](https://medium.com/@webprolific/getting-started-with-dotfiles-43c3602fd789)
@@ -20,7 +19,6 @@ To use the same color theme as mine, go to:
 1. iTerm2 -> Preferences -> Profiles -> Colors
 2. From the Color Presets, import the `.itermcolors` file and select it.
 
-
 ## Installation
 
 **NOTE:**
@@ -31,11 +29,11 @@ I consider this work still under development and there is a lot of room for impr
 
 You can clone it anywhere on your machine, the `bootstrap.sh` script will pull in the latest updates from github and copy the files to your home folder.
 
-##### To install in one line, run:
+#### To install in one line, run
 
     git clone https://github.com/mnsami/dotfiles.git && cd dotfiles && source bootstrap.sh
 
-##### Update:
+#### Update
 
     cd /path/to/dotfiles
     source bootstrap.sh
