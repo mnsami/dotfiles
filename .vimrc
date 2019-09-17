@@ -7,9 +7,11 @@ call plug#begin('~/.vim/plugged')
     Plug 'vim-airline/vim-airline-themes'
     Plug 'arcticicestudio/nord-vim'
     Plug 'joshdick/onedark.vim'
+    Plug 'morhetz/gruvbox'
 
     Plug 'SirVer/ultisnips'
-    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+
+    Plug '/usr/local/opt/fzf'
     Plug 'junegunn/fzf.vim'
 
     Plug 'tpope/vim-commentary'
@@ -22,6 +24,8 @@ call plug#begin('~/.vim/plugged')
     Plug 'majutsushi/tagbar'
     Plug 'tpope/vim-sensible'
     Plug 'chrisbra/csv.vim'
+
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
     " Syntax bundle
     Plug 'sheerun/vim-polyglot'
@@ -47,6 +51,7 @@ call plug#end()
 
 " ------------------------------------------------------------------------------------------------------------------------------
 set hidden
+set noshowmode
 set nomodeline                                  " Disable modeline for security reasons (FreeBSD tip)
 " ------------------------------------------------------------------------------------------------------------------------------
 syntax on                                   " Enable syntaxt highlighting/coloring
@@ -56,7 +61,7 @@ set showmode                                    " Show in what mode we are in (p
 set nopaste
 set background=dark
 set numberwidth=4                               " Make space to show line numbers up to 999
-colorscheme onedark 
+colorscheme gruvbox 
 " ------------------------------------------------------------------------------------------------------------------------------
 set nowrap                                      " Disable wrapping of lines
 set linebreak                                   " If we enable wrapping. Make it at least sensible
@@ -64,7 +69,7 @@ set nolist                                      " List disables linebreak
 set textwidth=0                                 " Prevent Vim from automatically inserting line breaks
 set wrapmargin=0                                " Prevent Vim from automatically inserting line breaks
 " ------------------------------------------------------------------------------------------------------------------------------
-set scrolloff=1                                 " Always have at least 3 lines before the window's bottom
+set scrolloff=3                                 " Always have at least 3 lines before the window's bottom
 set lazyredraw                                  " Don't update while in macro
 set ttyfast                                     " Improves redrawing
 set ttyscroll=3
@@ -109,10 +114,8 @@ set tabstop=4                                   " Use these amount of spaces whe
 set shiftwidth=4                                " Control how many columns text is indented with the reindent operations
 " ------------------------------------------------------------------------------------------------------------------------------
 set ruler                                       " Show line number and cursor position
-" if has('statusline')
-"   set laststatus=2                              " Always show the status line
-" endif
-"set cmdheight=2                                 " Height of the command bar
+set laststatus=2                                " Always show the status line
+set cmdheight=1                                 " Height of the command bar
 " ------------------------------------------------------------------------------------------------------------------------------
 set clipboard-=autoselect                       " Disable the automatic selection and copying of text in terminal Vim
 " ------------------------------------------------------------------------------------------------------------------------------
@@ -148,7 +151,7 @@ endfunction
 " ---------------------------------------------------------------
 " PLUGIN: vim-airline
 " ---------------------------------------------------------------
-  let g:airline_theme = 'onedark'
+  let g:airline_theme = 'gruvbox'
   let g:hybrid_custom_term_colors = 1
   let g:hybrid_reduced_contrast = 1
   let g:airline_powerline_fonts = 1
@@ -157,6 +160,7 @@ endfunction
   let g:airline#extensions#tabline#show_tabs = 1
   " Show just the filename
   let g:airline#extensions#tabline#fnamemod = ':t'
+  " let g:onedark_termcolors=16
 " ---------------------------------------------------------------
 
 
@@ -300,7 +304,31 @@ let g:jedi#popup_on_dot = 0
 call jedi#configure_call_signatures()
 let g:jedi#show_call_signatures = 1
 
-" Read settings from a system local vimrc
-" if filereadable($HOME . '/.vimrclocal')
-"   source $HOME/.vimrclocal
-" endif
+" ------------------------------------------------------------------------------------------------------------------------------
+" PLUGIN: junegunn/fzf.vim - A command-line fuzzy finder written in Go
+" ------------------------------------------------------------------------------------------------------------------------------
+let g:fzf_buffers_jump = 1
+let g:fzf_layout = { 'down': '~30%' }
+let g:fzf_history_dir = '~/.cache/fzf-history'
+
+nnoremap <leader>fh :Helptags<CR>
+nnoremap <leader>fc :BCommits<CR>
+nnoremap <leader>ff :Files<CR>
+nnoremap <leader>fg :GFiles<CR>
+nnoremap <leader>ft :Tags<CR>
+nnoremap <leader>fT :exec "Tags ".expand("<cword>")<CR>
+nnoremap <leader>fs :History/<CR>
+nnoremap <leader>fa :Rg<CR>
+nnoremap <leader>fA :exec "Rg ".expand("<cword>")<CR>
+
+autocmd! FileType fzf
+autocmd  FileType fzf set laststatus=0 noshowmode noruler
+    \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+
+autocmd VimEnter * command! -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+" ------------------------------------------------------------------------------------------------------------------------------
