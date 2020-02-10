@@ -19,3 +19,8 @@ alias vdir='vdir ${colorflag}'
 alias grep='grep --color=always'
 alias fgrep='fgrep --color=always'
 alias egrep='egrep --color=always'
+
+# git
+alias gall='git fetch --all'
+alias g-master-pull='git pull origin master'
+alias g-merge-master='git merge origin/master'
