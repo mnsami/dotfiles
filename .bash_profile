@@ -9,9 +9,6 @@ for file in ~/.{path,bash_prompt,exports,extra,ssh_agent,aliases}; do
 done;
 unset file;
 
-ln -sfv "$HOME/git/.gitconfig" ~
-ln -sfv "$HOME/git/.gitignore_global" ~
-
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob;
 
@@ -41,4 +38,3 @@ fi;
 
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
 [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
-

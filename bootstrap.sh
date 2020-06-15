@@ -6,11 +6,14 @@ git pull origin master;
 
 function doIt() {
 	rsync --exclude ".git/" \
+	    --exclude "git/" \
 		--exclude ".DS_Store" \
 		--exclude "bootstrap.sh" \
 		--exclude "README.md" \
 		--exclude "iterm" \
 		-avh --no-perms . ~;
+
+    cp  -r git/. ~;
 	source ~/.bash_profile;
 }
 
