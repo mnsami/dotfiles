@@ -13,7 +13,7 @@ function doIt() {
 		--exclude "iterm" \
 		-avh --no-perms . ~;
 
-    cp  -r git/. ~;
+    cp  -r git/. ~/.;
 	source ~/.bash_profile;
 }
 
