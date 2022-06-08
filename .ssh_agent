@@ -5,7 +5,7 @@ add_all_keys() {
   ls ~/.ssh | grep .*_rsa$ --color=never | sed "s:^:`echo ~`/.ssh/:" | xargs -n 1 ssh-add
 }
 
-SSH_KEYS=$(ls ~/.ssh | grep .*_rsa$ --color=never | sed "s:^:`echo ~`/.ssh/:" | wc -l)
+SSH_KEYS=$(ls ~/.ssh | grep ".*_rsa\|.*_ed2" --color=never | sed "s:^:`echo ~`/.ssh/:" | wc -l)
 LOADED_SSH_KEYS=$(ssh-add -l | wc -l)
 
 SSH_SOCK_ENV=$HOME/.ssh/agent_sock
