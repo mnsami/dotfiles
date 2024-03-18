@@ -1,22 +1,39 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
+# Get fingerprints of all keys currently loaded in the ssh-agent
+loaded_keys=$(ssh-add -l | awk '{print $2}')
 
-add_all_keys() {
-  ls ~/.ssh | grep -e _rsa$ -e '_ed.*[^(pub)]$' --color=never | sed "s:^:`echo ~`/.ssh/:" | xargs -n 1 ssh-add --apple-use-keychain
-}
+# Export loaded_keys for access within subshell invoked by find ... -exec
+export loaded_keys
 
-SSH_KEYS=$(ls ~/.ssh | grep -e _rsa$ -e '_ed.*[^(pub)]$' --color=never | sed "s:^:`echo ~`/.ssh/:" | wc -l)
-LOADED_SSH_KEYS=$(ssh-add -l | wc -l)
-
-SSH_SOCK_ENV=$HOME/.ssh/agent_sock
-
-if [ -S "$SSH_AUTH_SOCK" -a "$SSH_AUTH_SOCK" != "$SSH_SOCK_ENV" ]
-then
-    unlink "$SSH_SOCK_ENV" 2>/dev/null
-    ln -sf "$SSH_AUTH_SOCK" "$SSH_SOCK_ENV"
-    export SSH_AUTH_SOCK="$SSH_SOCK_ENV"
-    if [[ $SSH_KEYS -ne $LOADED_SSH_KEYS  || $LOADED_SSH_KEYS -eq 1 ]] ; then
-        add_all_keys
-    fi
-    echo `ssh-add -l | wc -l` SSH keys registered.
+if [ -z "$loaded_keys" ]; then
+    echo "No SSH keys are currently loaded in the ssh-agent."
+    # If you want to proceed to check and potentially load keys, don't exit here
 fi
+
+echo "Comparing loaded SSH keys with keys in ~/.ssh..."
+
+# Process each public key in the ~/.ssh directory
+find ~/.ssh -name "*.pub" -exec bash -c '
+    for pub_key_path; do
+        # Extract the fingerprint of the current public key, considering removal of the MD5 prefix for consistency
+        fingerprint=$(ssh-keygen -l -f "$pub_key_path" | awk "{print \$2}" | sed -e "s/MD5://")
+
+        # Use the exported loaded_keys within this subshell context
+        if echo "${loaded_keys}" | grep -q "$fingerprint"; then
+            echo "Public key $pub_key_path is already loaded."
+        else
+            echo "Public key $pub_key_path is NOT loaded. Attempting to load corresponding private key..."
+            private_key_path="${pub_key_path%.*}"
+            if [ -f "$private_key_path" ]; then
+                if ssh-add "$private_key_path" &> /dev/null; then
+                    echo "Loaded $private_key_path into ssh-agent."
+                else
+                    echo "Failed to load $private_key_path. Check if ssh-agent is running and if the key is password protected."
+                fi
+            else
+                echo "Corresponding private key $private_key_path not found."
+            fi
+        fi
+    done
+' bash {} +
