@@ -6,26 +6,56 @@ Centralized AI coding rules for Claude Code, Cursor, and other AI tools.
 
 This package provides a single source of truth for AI coding assistant rules that can be shared across all your projects. It uses [ai-rulez](https://github.com/Goldziher/ai-rulez) to generate tool-specific configurations.
 
+**Core Principles:**
+- DDD-inspired architecture
+- SOLID principles
+- Test Pyramid strategy
+- Pragmatic Atomic Design for UI
+
 ## Structure
 
 ```
 ai-rules/
-├── .config/ai-rulez/           # Symlinked to ~/.config/ai-rulez/
-│   ├── rules/                  # Core rules (always applied)
+├── .config/ai-rulez/
+│   ├── rules/                  # Constraints (always applied)
 │   │   ├── core.md            # Universal coding standards
-│   │   └── workflow.md        # Git, PR, code review conventions
+│   │   ├── workflow.md        # Git, PR, code review conventions
+│   │   ├── ddd-solid.md       # DDD + SOLID principles
+│   │   ├── testing-standards.md # Test Pyramid strategy
+│   │   └── ui-design-principles.md # shadcn/ui + Tailwind conventions
+│   │
 │   ├── context/               # Reference documentation
-│   │   └── architecture.md    # Architecture preferences
+│   │   ├── architecture.md    # Architecture preferences
+│   │   ├── ddd-patterns.md    # DDD pattern catalog
+│   │   ├── refactoring-catalog.md # Code smells & refactorings
+│   │   └── component-architecture.md # Pragmatic Atomic Design
+│   │
 │   ├── skills/                # AI expert personas
+│   │   ├── architect/         # System design expertise
 │   │   ├── code-reviewer/     # Code review expertise
 │   │   ├── debugger/          # Debugging expertise
-│   │   └── architect/         # System design expertise
-│   ├── domains/               # Language-specific rules
+│   │   ├── ddd-expert/        # Domain modeling expertise
+│   │   ├── refactoring-expert/ # Refactoring expertise
+│   │   ├── testing-expert/    # Test design expertise
+│   │   └── ui-ux-expert/      # UI/UX design expertise
+│   │
+│   ├── domains/               # Language-specific rules & skills
 │   │   ├── go/
 │   │   ├── php/
 │   │   ├── typescript/
 │   │   └── python/
-│   └── commands/              # Slash commands (/review, /test, etc.)
+│   │
+│   └── commands/              # Workflow commands
+│       ├── review.md          # /review - Code review
+│       ├── refactor.md        # /refactor - Refactoring analysis
+│       ├── test.md            # /test - Generate tests
+│       ├── explain.md         # /explain - Code explanation
+│       ├── design-review.md   # /design-review - UI/UX review
+│       ├── api-endpoint.md    # /api-endpoint - Create API endpoint
+│       ├── react-component.md # /react-component - Create React component
+│       ├── database.md        # /database - Database operations
+│       └── service.md         # /service - Create service/use case
+│
 └── templates/                 # Project setup templates
 ```
 
@@ -67,8 +97,6 @@ ai-rules/
    ./stow.sh install
    ```
 
-   This creates: `~/.config/ai-rulez/` → symlinked to dotfiles
-
 3. Verify installation:
    ```bash
    ls -la ~/.config/ai-rulez/
@@ -78,13 +106,13 @@ ai-rules/
 
 ### Setting Up a New Project
 
-1. Create the ai-rulez config in your project:
+1. Create the ai-rulez config:
    ```bash
    mkdir -p .ai-rulez
    cp ~/dotfiles/ai-rules/templates/ai-rulez.yml.template .ai-rulez/config.yaml
    ```
 
-2. Edit `.ai-rulez/config.yaml` to select your language profile:
+2. Edit `.ai-rulez/config.yaml`:
    ```yaml
    includes:
      - name: mnsami-standards
@@ -93,34 +121,14 @@ ai-rules/
        merge_strategy: local-override
 
    profiles:
-     default: [go]  # or [php], [typescript], [python], or multiple
+     default: [go]  # or [php], [typescript], [python]
 
    presets:
      - claude
      - cursor
    ```
 
-3. Generate AI tool configs:
-   ```bash
-   ai-rulez generate
-   ```
-
-   This creates:
-   - `CLAUDE.md` - for Claude Code
-   - `.cursor/rules/*.mdc` - for Cursor
-
-4. (Optional) Add project-specific rules:
-   ```bash
-   cp ~/dotfiles/ai-rules/templates/project-rules.md.template .ai-rulez/rules/project.md
-   # Edit with your project-specific constraints
-   ```
-
-### Updating Rules
-
-When you update rules in your dotfiles:
-
-1. Commit and push changes to your dotfiles repo
-2. In each project, regenerate:
+3. Generate configs:
    ```bash
    ai-rulez generate
    ```
@@ -134,102 +142,158 @@ When you update rules in your dotfiles:
 | `typescript` | TypeScript/React/Node.js standards |
 | `python` | Python/FastAPI/Django standards |
 
-Combine profiles for full-stack projects:
-```yaml
-profiles:
-  default: [go, typescript]
+Combine for full-stack: `profiles: { default: [go, typescript] }`
+
+---
+
+## Commands Reference
+
+### Task Commands (Analysis & Review)
+
+| Command | Description | Activates Skills |
+|---------|-------------|------------------|
+| `/review` | Code review with severity levels | code-reviewer |
+| `/refactor` | Analyze code smells, suggest improvements | refactoring-expert |
+| `/test` | Generate tests following Test Pyramid | testing-expert |
+| `/explain` | Explain code at appropriate depth | - |
+| `/design-review` | UI/UX accessibility & best practices review | ui-ux-expert |
+
+### Workflow Commands (Code Generation)
+
+| Command | Description | Output |
+|---------|-------------|--------|
+| `/api-endpoint` | Create complete API endpoint | Handler, service, repository, tests |
+| `/react-component` | Create React component | Component, tests, hooks |
+| `/database` | Database operations | Migrations, repositories, queries |
+| `/service` | Create service/use case | Application/domain service with tests |
+
+### Example Usage
+
+```
+# Create a new API endpoint
+/api-endpoint POST /api/v1/orders - Create order with items and shipping
+
+# Create a React component
+/react-component OrderList - Feature component displaying paginated orders
+
+# Generate tests for existing code
+/test src/domain/order/order.go
+
+# Refactor with DDD/SOLID analysis
+/refactor src/services/orderService.ts
 ```
 
-### Available Commands
+---
 
-| Command | Description |
-|---------|-------------|
-| `/review` | Code review with severity levels |
-| `/refactor` | Suggest refactoring improvements |
-| `/test` | Generate comprehensive tests |
-| `/explain` | Explain code at appropriate depth |
+## Skills Reference
 
-### Available Skills
+### Architectural Skills
 
-| Skill | Description |
-|-------|-------------|
-| `code-reviewer` | Expert code review feedback |
-| `debugger` | Systematic debugging assistance |
-| `architect` | System design and architecture |
-| `go-expert` | Go-specific expertise |
-| `php-expert` | PHP-specific expertise |
-| `ts-expert` | TypeScript-specific expertise |
-| `python-expert` | Python-specific expertise |
+| Skill | Use When |
+|-------|----------|
+| `architect` | Designing systems, making architectural decisions |
+| `ddd-expert` | Modeling domains, bounded contexts, aggregates |
+
+### Task Skills
+
+| Skill | Use When |
+|-------|----------|
+| `refactoring-expert` | Improving code structure without changing behavior |
+| `testing-expert` | Designing test strategies, writing effective tests |
+| `code-reviewer` | Reviewing code for quality, security, maintainability |
+| `debugger` | Systematic debugging and root cause analysis |
+
+### UI Skills
+
+| Skill | Use When |
+|-------|----------|
+| `ui-ux-expert` | Component design, accessibility, shadcn/ui patterns |
+
+### Language Skills
+
+| Skill | Use When |
+|-------|----------|
+| `go-expert` | Go-specific patterns, idioms, testing |
+| `php-expert` | PHP/Laravel/Symfony best practices |
+| `ts-expert` | TypeScript/React/Node.js development |
+| `python-expert` | Python/FastAPI/Django development |
+
+---
+
+## Rules Reference
+
+### Always Applied
+
+| Rule | Purpose |
+|------|---------|
+| `core.md` | Universal coding standards |
+| `workflow.md` | Git, PR, code review conventions |
+| `ddd-solid.md` | DDD + SOLID principles |
+| `testing-standards.md` | Test Pyramid, coverage targets |
+
+### UI Projects
+
+| Rule | Purpose |
+|------|---------|
+| `ui-design-principles.md` | shadcn/ui + Tailwind conventions, accessibility |
+
+---
+
+## Context Reference
+
+Reference documentation loaded when relevant:
+
+| Context | Contains |
+|---------|----------|
+| `architecture.md` | General architecture preferences |
+| `ddd-patterns.md` | Value Objects, Entities, Aggregates, Repositories |
+| `refactoring-catalog.md` | Code smells and refactoring patterns |
+| `component-architecture.md` | Pragmatic Atomic Design (ui/ → patterns/ → features/) |
+
+---
 
 ## Customization
 
-### Adding New Rules
+### Adding Project-Specific Rules
 
-1. Create a new markdown file in the appropriate directory:
-   ```bash
-   vim ~/.config/ai-rulez/rules/my-custom-rule.md
-   ```
+Create `.ai-rulez/rules/project.md` in your project:
 
-2. Add frontmatter for priority and targeting:
-   ```markdown
-   ---
-   priority: high
-   targets: ["CLAUDE.md"]
-   ---
-   # My Custom Rule
+```markdown
+---
+priority: critical
+---
+# Project: my-api
 
-   Your rule content here...
-   ```
+## Architecture
+- REST API using Chi router
+- PostgreSQL with sqlc
 
-3. Restow to update symlinks:
-   ```bash
-   cd ~/dotfiles && ./stow.sh restow
-   ```
+## Constraints
+- All endpoints authenticated except /health
+- Maximum 200ms response time
+```
 
 ### Adding a New Language Domain
 
-1. Create the domain structure:
-   ```bash
-   mkdir -p ~/.config/ai-rulez/domains/rust/{rules,skills/rust-expert}
-   ```
+```bash
+mkdir -p ~/.config/ai-rulez/domains/rust/{rules,skills/rust-expert}
+# Add rules and skills
+# Use in projects with: profiles: { default: [rust] }
+```
 
-2. Add rules and skills for the language
-
-3. Use the domain in projects:
-   ```yaml
-   profiles:
-     default: [rust]
-   ```
+---
 
 ## Troubleshooting
 
 ### Symlinks not working
-
 ```bash
-# Check if stow is installed
-which stow
-
-# Reinstall symlinks
-cd ~/dotfiles
-./stow.sh restow
+cd ~/dotfiles && ./stow.sh restow
 ```
 
-### ai-rulez not finding global config
-
-Ensure `~/.config/ai-rulez/` exists and contains your rules:
+### ai-rulez not finding config
 ```bash
 ls -la ~/.config/ai-rulez/
 ```
 
-### Generated files are empty
-
-Check that your `includes` path in `config.yaml` is correct and the dotfiles repo is accessible.
-
-## Contributing
-
-To modify the shared rules:
-
-1. Edit files in `~/dotfiles/ai-rules/.config/ai-rulez/`
-2. Test locally with `ai-rulez generate` in a project
-3. Commit and push to the dotfiles repo
-4. Other projects will get updates on next `ai-rulez generate`
+### Generated files empty
+Check `includes` path in `config.yaml` and repo accessibility.
