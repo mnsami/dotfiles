@@ -1,0 +1,23 @@
+# ai-rulez configuration
+# Copy this to your project root as .ai-rulez/config.yaml
+
+# Pull shared rules from dotfiles repository
+includes:
+  - name: mnsami-standards
+    source: https://github.com/mnsami/dotfiles.git
+    path: ai-rules
+    merge_strategy: local-override
+
+# Select which domains to include
+# Options: go, php, typescript, python
+profiles:
+  default: []  # Add your language(s) here, e.g., [go] or [go, typescript]
+
+# Target AI tools to generate configs for
+presets:
+  - claude
+  - cursor
+
+# Optional: Override settings
+# header_style: compact  # detailed, compact, or minimal
+# gitignore: true        # Auto-update .gitignore with generated files
