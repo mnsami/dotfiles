@@ -1,0 +1,10 @@
+version: "3.0"
+name: "mnsami-standards"
+description: "Mina Sami's AI rules"
+
+presets:
+  - claude
+  - cursor
+
+profiles:
+  default: []
