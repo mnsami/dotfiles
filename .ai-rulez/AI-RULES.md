@@ -14,49 +14,51 @@ This package provides a single source of truth for AI coding assistant rules tha
 
 ## Structure
 
+This uses the "standard structure" that ai-rulez auto-detects (`.ai-rulez/` directory at repo root):
+
 ```
-ai-rules/
-├── .config/ai-rulez/
-│   ├── rules/                  # Constraints (always applied)
-│   │   ├── core.md            # Universal coding standards
-│   │   ├── workflow.md        # Git, PR, code review conventions
-│   │   ├── ddd-solid.md       # DDD + SOLID principles
-│   │   ├── testing-standards.md # Test Pyramid strategy
-│   │   └── ui-design-principles.md # shadcn/ui + Tailwind conventions
-│   │
-│   ├── context/               # Reference documentation
-│   │   ├── architecture.md    # Architecture preferences
-│   │   ├── ddd-patterns.md    # DDD pattern catalog
-│   │   ├── refactoring-catalog.md # Code smells & refactorings
-│   │   └── component-architecture.md # Pragmatic Atomic Design
-│   │
-│   ├── skills/                # AI expert personas
-│   │   ├── architect/         # System design expertise
-│   │   ├── code-reviewer/     # Code review expertise
-│   │   ├── debugger/          # Debugging expertise
-│   │   ├── ddd-expert/        # Domain modeling expertise
-│   │   ├── refactoring-expert/ # Refactoring expertise
-│   │   ├── testing-expert/    # Test design expertise
-│   │   └── ui-ux-expert/      # UI/UX design expertise
-│   │
-│   ├── domains/               # Language-specific rules & skills
-│   │   ├── go/
-│   │   ├── php/
-│   │   ├── typescript/
-│   │   └── python/
-│   │
-│   └── commands/              # Workflow commands
-│       ├── review.md          # /review - Code review
-│       ├── refactor.md        # /refactor - Refactoring analysis
-│       ├── test.md            # /test - Generate tests
-│       ├── explain.md         # /explain - Code explanation
-│       ├── design-review.md   # /design-review - UI/UX review
-│       ├── api-endpoint.md    # /api-endpoint - Create API endpoint
-│       ├── react-component.md # /react-component - Create React component
-│       ├── database.md        # /database - Database operations
-│       └── service.md         # /service - Create service/use case
-│
-└── templates/                 # Project setup templates
+dotfiles/
+└── .ai-rulez/                     # ai-rulez standard structure
+    ├── rules/                     # Constraints (always applied)
+    │   ├── core.md               # Universal coding standards
+    │   ├── workflow.md           # Git, PR, code review conventions
+    │   ├── ddd-solid.md          # DDD + SOLID principles
+    │   ├── testing-standards.md  # Test Pyramid strategy
+    │   └── ui-design-principles.md # shadcn/ui + Tailwind conventions
+    │
+    ├── context/                  # Reference documentation
+    │   ├── architecture.md       # Architecture preferences
+    │   ├── ddd-patterns.md       # DDD pattern catalog
+    │   ├── refactoring-catalog.md # Code smells & refactorings
+    │   └── component-architecture.md # Pragmatic Atomic Design
+    │
+    ├── skills/                   # AI expert personas
+    │   ├── architect/            # System design expertise
+    │   ├── code-reviewer/        # Code review expertise
+    │   ├── debugger/             # Debugging expertise
+    │   ├── ddd-expert/           # Domain modeling expertise
+    │   ├── refactoring-expert/   # Refactoring expertise
+    │   ├── testing-expert/       # Test design expertise
+    │   └── ui-ux-expert/         # UI/UX design expertise
+    │
+    ├── domains/                  # Language-specific rules & skills
+    │   ├── go/
+    │   ├── php/
+    │   ├── typescript/
+    │   └── python/
+    │
+    ├── commands/                 # Workflow commands
+    │   ├── review.md             # /review - Code review
+    │   ├── refactor.md           # /refactor - Refactoring analysis
+    │   ├── test.md               # /test - Generate tests
+    │   ├── explain.md            # /explain - Code explanation
+    │   ├── design-review.md      # /design-review - UI/UX review
+    │   ├── api-endpoint.md       # /api-endpoint - Create API endpoint
+    │   ├── react-component.md    # /react-component - Create React component
+    │   ├── database.md           # /database - Database operations
+    │   └── service.md            # /service - Create service/use case
+    │
+    └── templates/                # Project setup templates
 ```
 
 ## Installation
@@ -109,15 +111,19 @@ ai-rules/
 1. Create the ai-rulez config:
    ```bash
    mkdir -p .ai-rulez
-   cp ~/dotfiles/ai-rules/templates/ai-rulez.yml.template .ai-rulez/config.yaml
+   cp ~/dotfiles/.ai-rulez/templates/ai-rulez.yml.template .ai-rulez/config.yaml
    ```
 
 2. Edit `.ai-rulez/config.yaml`:
    ```yaml
+   version: "3.0"
+   name: my-project
+
    includes:
      - name: mnsami-standards
        source: https://github.com/mnsami/dotfiles.git
-       path: ai-rules/.config/ai-rulez
+       ref: master
+       include: [rules, context, skills, commands, domains]
        merge_strategy: local-override
 
    profiles:

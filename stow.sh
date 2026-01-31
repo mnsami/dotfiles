@@ -34,8 +34,8 @@ check_stow() {
     fi
 }
 
-install_ai_rules() {
-    echo "  Setting up ai-rules..."
+install_ai_rulez() {
+    echo "  Setting up .ai-rulez..."
 
     # Create ~/.config if it doesn't exist
     mkdir -p "$HOME/.config"
@@ -48,16 +48,16 @@ install_ai_rules() {
         mv "$HOME/.config/ai-rulez" "$HOME/.config/ai-rulez.backup.$(date +%s)"
     fi
 
-    # Create symlink
-    ln -s "$DOTFILES_DIR/ai-rules" "$HOME/.config/ai-rulez"
-    print_status "ai-rules → ~/.config/ai-rulez"
+    # Create symlink: dotfiles/.ai-rulez → ~/.config/ai-rulez
+    ln -s "$DOTFILES_DIR/.ai-rulez" "$HOME/.config/ai-rulez"
+    print_status ".ai-rulez → ~/.config/ai-rulez"
 }
 
-uninstall_ai_rules() {
-    echo "  Removing ai-rules..."
+uninstall_ai_rulez() {
+    echo "  Removing .ai-rulez..."
     if [ -L "$HOME/.config/ai-rulez" ]; then
         rm "$HOME/.config/ai-rulez"
-        print_status "ai-rules symlink removed"
+        print_status ".ai-rulez symlink removed"
     else
         print_warning "~/.config/ai-rulez is not a symlink, skipping"
     fi
@@ -67,9 +67,9 @@ install_packages() {
     check_stow
     echo "Installing dotfiles packages..."
 
-    # Special handling for ai-rules (symlink to ~/.config/ai-rulez)
-    if [ -d "$DOTFILES_DIR/ai-rules" ]; then
-        install_ai_rules
+    # ai-rulez: symlink to ~/.config/ai-rulez
+    if [ -d "$DOTFILES_DIR/.ai-rulez" ]; then
+        install_ai_rulez
     fi
 
     # Add more stow packages here if needed
@@ -82,8 +82,8 @@ uninstall_packages() {
     check_stow
     echo "Uninstalling dotfiles packages..."
 
-    # Special handling for ai-rules
-    uninstall_ai_rules
+    # ai-rulez
+    uninstall_ai_rulez
 
     print_status "All packages uninstalled!"
 }
@@ -103,7 +103,7 @@ show_usage() {
     echo "  restow    - Recreate all symlinks (useful after adding new files)"
     echo ""
     echo "Packages managed:"
-    echo "  ai-rules → ~/.config/ai-rulez"
+    echo "  .ai-rulez → ~/.config/ai-rulez"
 }
 
 # Main

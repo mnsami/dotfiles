@@ -40,7 +40,7 @@ You can clone it anywhere on your machine, the `bootstrap.sh` script will pull i
 
 ### Adding extra customizations
 
-If `~/.extra` exists, it will be sourced along with the other files (check [`.bash_profile`](https://github.com/mnsami/dotfiles/blob/autodeploy/.bash_profile)). You can use this to add a few custom commands without the need to fork this entire repository, or to add commands you don’t want to commit to a public repository.
+If `~/.extra` exists, it will be sourced along with the other files (check [`.bash_profile`](https://github.com/mnsami/dotfiles/blob/autodeploy/.bash_profile)). You can use this to add a few custom commands without the need to fork this entire repository, or to add commands you don't want to commit to a public repository.
 
 My `~/.extra` file looks like this:
 
@@ -73,17 +73,21 @@ This repo includes a centralized AI coding rules system that works with Claude C
    brew install goldziher/tap/ai-rulez
    ```
 
-2. Install the ai-rules package:
+2. Install the ai-rules package (creates symlink to ~/.config/ai-rulez):
    ```bash
    ./stow.sh install
    ```
 
 3. In any project, create `.ai-rulez/config.yaml`:
    ```yaml
+   version: "3.0"
+   name: my-project
+
    includes:
      - name: mnsami-standards
        source: https://github.com/mnsami/dotfiles.git
-       path: ai-rules/.config/ai-rulez
+       ref: master
+       include: [rules, context, skills, commands, domains]
        merge_strategy: local-override
 
    profiles:
@@ -99,7 +103,7 @@ This repo includes a centralized AI coding rules system that works with Claude C
    ai-rulez generate
    ```
 
-See [ai-rules/AI-RULES.md](ai-rules/AI-RULES.md) for full documentation.
+See [.ai-rulez/AI-RULES.md](.ai-rulez/AI-RULES.md) for full documentation.
 
 ### Install Homebrew formulae
 
@@ -112,7 +116,7 @@ This will do the following:
 ./brew.sh
 ```
 
-Some of the functionality of these dotfiles depends on formulae installed by `brew.sh`. If you don’t plan to run `brew.sh`, you should look carefully through the script and manually install any particularly important ones.
+Some of the functionality of these dotfiles depends on formulae installed by `brew.sh`. If you don't plan to run `brew.sh`, you should look carefully through the script and manually install any particularly important ones.
 
 ## Feedback
 

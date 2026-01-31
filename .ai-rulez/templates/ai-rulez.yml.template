@@ -5,11 +5,11 @@ version: "3.0"
 name: PROJECT_NAME  # Change this to your project name
 
 # Pull shared rules from dotfiles repository
+# Uses "standard structure" - ai-rulez auto-detects .ai-rulez/ in the repo
 includes:
   - name: mnsami-standards
     source: https://github.com/mnsami/dotfiles.git
     ref: master
-    path: ai-rules
     include: [rules, context, skills, commands, domains]
     merge_strategy: local-override
 
