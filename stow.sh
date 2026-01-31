@@ -6,12 +6,6 @@ set -e
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Packages to manage with stow
-# Each directory with a leading dot becomes a stow package
-PACKAGES=(
-    "ai-rules"  # AI rules for Claude Code, Cursor, etc.
-)
-
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -40,19 +34,46 @@ check_stow() {
     fi
 }
 
+install_ai_rules() {
+    echo "  Setting up ai-rules..."
+
+    # Create ~/.config if it doesn't exist
+    mkdir -p "$HOME/.config"
+
+    # Remove existing symlink or directory
+    if [ -L "$HOME/.config/ai-rulez" ]; then
+        rm "$HOME/.config/ai-rulez"
+    elif [ -d "$HOME/.config/ai-rulez" ]; then
+        print_warning "~/.config/ai-rulez exists and is not a symlink. Backing up..."
+        mv "$HOME/.config/ai-rulez" "$HOME/.config/ai-rulez.backup.$(date +%s)"
+    fi
+
+    # Create symlink
+    ln -s "$DOTFILES_DIR/ai-rules" "$HOME/.config/ai-rulez"
+    print_status "ai-rules → ~/.config/ai-rulez"
+}
+
+uninstall_ai_rules() {
+    echo "  Removing ai-rules..."
+    if [ -L "$HOME/.config/ai-rulez" ]; then
+        rm "$HOME/.config/ai-rulez"
+        print_status "ai-rules symlink removed"
+    else
+        print_warning "~/.config/ai-rulez is not a symlink, skipping"
+    fi
+}
+
 install_packages() {
     check_stow
     echo "Installing dotfiles packages..."
 
-    for package in "${PACKAGES[@]}"; do
-        if [ -d "$DOTFILES_DIR/$package" ]; then
-            echo "  Stowing $package..."
-            stow -v -d "$DOTFILES_DIR" -t "$HOME" "$package" 2>&1 | grep -v "^LINK" || true
-            print_status "$package installed"
-        else
-            print_warning "Package $package not found, skipping"
-        fi
-    done
+    # Special handling for ai-rules (symlink to ~/.config/ai-rulez)
+    if [ -d "$DOTFILES_DIR/ai-rules" ]; then
+        install_ai_rules
+    fi
+
+    # Add more stow packages here if needed
+    # Example: stow -v -d "$DOTFILES_DIR" -t "$HOME" "some-package"
 
     print_status "All packages installed!"
 }
@@ -61,30 +82,16 @@ uninstall_packages() {
     check_stow
     echo "Uninstalling dotfiles packages..."
 
-    for package in "${PACKAGES[@]}"; do
-        if [ -d "$DOTFILES_DIR/$package" ]; then
-            echo "  Unstowing $package..."
-            stow -v -D -d "$DOTFILES_DIR" -t "$HOME" "$package" 2>&1 | grep -v "^UNLINK" || true
-            print_status "$package uninstalled"
-        fi
-    done
+    # Special handling for ai-rules
+    uninstall_ai_rules
 
     print_status "All packages uninstalled!"
 }
 
 restow_packages() {
-    check_stow
     echo "Restowing dotfiles packages..."
-
-    for package in "${PACKAGES[@]}"; do
-        if [ -d "$DOTFILES_DIR/$package" ]; then
-            echo "  Restowing $package..."
-            stow -v -R -d "$DOTFILES_DIR" -t "$HOME" "$package" 2>&1 | grep -v "^LINK\|^UNLINK" || true
-            print_status "$package restowed"
-        fi
-    done
-
-    print_status "All packages restowed!"
+    uninstall_packages
+    install_packages
 }
 
 show_usage() {
@@ -95,7 +102,8 @@ show_usage() {
     echo "  uninstall - Remove all symlinks"
     echo "  restow    - Recreate all symlinks (useful after adding new files)"
     echo ""
-    echo "Packages managed: ${PACKAGES[*]}"
+    echo "Packages managed:"
+    echo "  ai-rules → ~/.config/ai-rulez"
 }
 
 # Main

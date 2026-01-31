@@ -1,11 +1,16 @@
 # ai-rulez configuration
-# Copy this to your project root as .ai-rulez/config.yaml
+# Copy this to your project as .ai-rulez/config.yaml
+
+version: "3.0"
+name: PROJECT_NAME  # Change this to your project name
 
 # Pull shared rules from dotfiles repository
 includes:
   - name: mnsami-standards
     source: https://github.com/mnsami/dotfiles.git
+    ref: master
     path: ai-rules
+    include: [rules, context, skills, commands, domains]
     merge_strategy: local-override
 
 # Select which domains to include
