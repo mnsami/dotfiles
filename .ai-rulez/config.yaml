@@ -7,4 +7,11 @@ presets:
   - cursor
 
 profiles:
-  default: []
+  go:
+    - go
+  php:
+    - php
+  typescript:
+    - typescript
+  python:
+    - python
