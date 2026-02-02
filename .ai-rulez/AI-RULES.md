@@ -41,11 +41,12 @@ dotfiles/
     │   ├── testing-expert/       # Test design expertise
     │   └── ui-ux-expert/         # UI/UX design expertise
     │
-    ├── domains/                  # Language-specific domain definitions
-    │   ├── go/                   # Go domain (refs go-standards, go-expert)
-    │   │   ├── DOMAIN.md
-    │   │   ├── rules.yaml
-    │   │   └── skills.yaml
+    ├── domains/                  # Language-specific content (profile-specific)
+    │   ├── go/                   # Go domain
+    │   │   ├── rules/
+    │   │   │   └── go-standards.md
+    │   │   └── skills/
+    │   │       └── go-expert/SKILL.md
     │   ├── php/                  # PHP domain
     │   ├── typescript/           # TypeScript domain
     │   └── python/               # Python domain
