@@ -41,11 +41,14 @@ dotfiles/
     │   ├── testing-expert/       # Test design expertise
     │   └── ui-ux-expert/         # UI/UX design expertise
     │
-    ├── domains/                  # Language-specific rules & skills
-    │   ├── go/
-    │   ├── php/
-    │   ├── typescript/
-    │   └── python/
+    ├── domains/                  # Language-specific domain definitions
+    │   ├── go/                   # Go domain (refs go-standards, go-expert)
+    │   │   ├── DOMAIN.md
+    │   │   ├── rules.yaml
+    │   │   └── skills.yaml
+    │   ├── php/                  # PHP domain
+    │   ├── typescript/           # TypeScript domain
+    │   └── python/               # Python domain
     │
     ├── commands/                 # Workflow commands
     │   ├── review.md             # /review - Code review
@@ -123,7 +126,7 @@ dotfiles/
      - name: mnsami-standards
        source: https://github.com/mnsami/dotfiles.git
        ref: master
-       include: [rules, context, skills, commands, domains]
+       include: [rules, context, skills, agents, commands, domains]
        merge_strategy: local-override
 
    profiles:

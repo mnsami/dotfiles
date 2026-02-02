@@ -10,7 +10,7 @@ includes:
   - name: mnsami-standards
     source: https://github.com/mnsami/dotfiles.git
     ref: master
-    include: [rules, context, skills, commands, domains]
+    include: [rules, context, skills, agents, commands, domains]
     merge_strategy: local-override
 
 # Select which domains to include
