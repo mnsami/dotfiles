@@ -6,7 +6,11 @@ presets:
   - claude
   - cursor
 
+default: full
+
 profiles:
+  full:
+    - []
   go:
     - go
   php:
