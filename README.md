@@ -61,50 +61,6 @@ My `~/.extra` file looks like this:
     GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
     git config --global user.email "$GIT_AUTHOR_EMAIL"
 
-## AI Rules (Claude Code, Cursor, etc.)
-
-This repo includes a centralized AI coding rules system that works with Claude Code, Cursor, and other AI tools via [ai-rulez](https://github.com/Goldziher/ai-rulez).
-
-### Quick Setup
-
-1. Install prerequisites:
-   ```bash
-   brew install stow
-   brew install goldziher/tap/ai-rulez
-   ```
-
-2. Install the ai-rules package (creates symlink to ~/.config/ai-rulez):
-   ```bash
-   ./stow.sh install
-   ```
-
-3. In any project, create `.ai-rulez/config.yaml`:
-   ```yaml
-   version: "3.0"
-   name: my-project
-
-   includes:
-     - name: mnsami-standards
-       source: https://github.com/mnsami/dotfiles.git
-       ref: master
-       include: [rules, context, skills, commands, domains]
-       merge_strategy: local-override
-
-   profiles:
-     default: [go]  # or [php], [typescript], [python]
-
-   presets:
-     - claude
-     - cursor
-   ```
-
-4. Generate configs:
-   ```bash
-   ai-rulez generate
-   ```
-
-See [.ai-rulez/AI-RULES.md](.ai-rulez/AI-RULES.md) for full documentation.
-
 ### Install Homebrew formulae
 
 This will do the following:
