@@ -1,4 +1,4 @@
-#!/bin/bash
+# ssh-agent key loader (from .ssh_agent).
 
 # Get fingerprints of all keys currently loaded in the ssh-agent
 loaded_keys=$(ssh-add -l | awk '{print $2}')
@@ -13,6 +13,10 @@ fi
 
 echo "Comparing loaded SSH keys with keys in ~/.ssh..."
 
+# Skip cleanly when ~/.ssh does not exist (e.g. fresh HOME) so `find` does not
+# error to stderr and abort sourcing under `set -e`. When ~/.ssh exists the
+# behavior is identical to before.
+if [ -d ~/.ssh ]; then
 # Process each public key in the ~/.ssh directory
 find ~/.ssh -name "*.pub" -exec bash -c '
     for pub_key_path; do
@@ -37,3 +41,4 @@ find ~/.ssh -name "*.pub" -exec bash -c '
         fi
     done
 ' bash {} +
+fi

@@ -3,7 +3,19 @@
 ![Screenshot of my shell prompt](https://cloud.minasami.com/index.php/s/JArNKMeNkgM9XoY/preview)
 
 These are my dotfiles. Take anything you want, but at your own risk.
-I created this mainly for using on macOS, and I didn't test it on any *nix system.
+I created this mainly for using on macOS. It works under both **bash** and **zsh**; other *nix systems should mostly work but aren't extensively tested.
+
+## Shell support
+
+These dotfiles work under both **bash** and **zsh** through a shared `.shell/` core, so you get the same prompt, exports, aliases, options, and completion regardless of which shell you use.
+
+The layout:
+
+* `.shell/` — shared, portable pieces sourced by both shells (PATH, colors, exports, aliases, functions, ssh-agent, plus an `init.sh` loader).
+* `.shell/bash/` + `.bash_profile` — bash-specific options, completion, and prompt.
+* `.shell/zsh/` + `.zshrc` — zsh-specific options, completion, and prompt.
+
+`~/.extra` and `~/.path` still work for both shells: if present, they are sourced by the shared loader, so any custom commands or PATH extensions you keep there apply under bash and zsh alike.
 
 ## Thanks to
 
