@@ -5,7 +5,8 @@
 
 # Resolve this file's own directory (.shell) in a shell-appropriate way.
 if [ -n "$ZSH_VERSION" ]; then
-	_shell_dir="${0:A:h}"
+	# %x = the file being sourced; robust even if FUNCTION_ARGZERO is disabled.
+	_shell_dir="${${(%):-%x}:A:h}"
 elif [ -n "$BASH_VERSION" ]; then
 	_shell_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 fi

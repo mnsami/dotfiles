@@ -2,7 +2,7 @@
 
 cd "$(dirname "${BASH_SOURCE}")";
 
-git pull origin master;
+# git pull origin master;
 
 function doIt() {
 	rsync --exclude ".git/" \
@@ -12,6 +12,7 @@ function doIt() {
 		--exclude "README.md" \
 		--exclude "docs/" \
 		--exclude "iterm" \
+		--exclude ".claude" \
 		-avh --no-perms . ~;
 
     cp  -r git/. ~/.;
