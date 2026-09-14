@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+# Shell aliases (portable; from .aliases).
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
@@ -24,3 +24,9 @@ alias egrep='egrep --color=always'
 alias gall='git fetch --all'
 alias g-master-pull='git pull origin master'
 alias g-merge-master='git merge origin/master'
+
+# GitLab Duo cli
+alias duo='glab duo cli'
+
+# claude danger
+alias claude-danger='claude --dangerously-skip-permissions'

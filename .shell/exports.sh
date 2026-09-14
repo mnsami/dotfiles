@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+# Environment exports (portable; from .exports).
+# Uses $yellow defined in colors.sh, so this must be sourced after colors.sh.
 
 # Make vim the default editor.
 export EDITOR='vim';
